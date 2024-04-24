@@ -60,7 +60,6 @@ print("Decoded Review:", decoded)
 
 data = vectorize(data)
 label = np.array(label).astype("float32")
-
 labelDF = pd.DataFrame({'label': label})
 sns.countplot(x='label', data=labelDF)
 
@@ -75,8 +74,19 @@ model.add(layers.Dense(50, activation="relu"))
 model.add(layers.Dense(1, activation="sigmoid"))
 
 model.summary()
-
+import tensorflow as tf
+import numpy as np
+# Replace the following lines with your actual data loading code
+X_train = np.random.rand(100, 10)
+y_train = np.random.randint(0, 2, size=(100,))
+X_test = np.random.rand(50, 10)
+y_test = np.random.randint(0, 2, size=(50,))
 callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(16, activation='relu'),
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
 model.compile(
     optimizer="adam",
     loss="binary_crossentropy",
@@ -93,6 +103,7 @@ results = model.fit(
 
 print("Validation Accuracy:", np.mean(results.history["val_accuracy"]))
 
+import matplotlib.pyplot as plt
 score = model.evaluate(X_test, y_test, batch_size=500)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
